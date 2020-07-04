@@ -4,17 +4,24 @@
 
   <template>
   <div class="SimpleQuiz">
-    <div text="justify-center">
+    <div>
       <h1>Question {{questionNumber}}</h1>
       <div v-for="question in questions" :key="question.questions">
-        <h1>{{question.questionName}}</h1>
+      
+         <v-img max-height="800" max-width="800">
+           
+          <img :src="question.questionName" />
+        </v-img>
+      </div>
+
+      <div v-if="questionNumber == 1">
         <vue-select-image
           :dataImages="question1Images"
           h="600"
           w="1000"
           @onselectimage="incrementCounter"
         ></vue-select-image>
-        <v-container fluid="justify-center">
+        <v-container>
           <v-btn-toggle color="deep-purple">
             <v-btn @click="neutralCounter">Neutral</v-btn>
           </v-btn-toggle>
@@ -22,14 +29,13 @@
       </div>
 
       <div v-if="questionNumber == 2">
-        <h1>Which fast food place do you prefer</h1>
         <vue-select-image
           :dataImages="question2Images"
           h="600"
           w="1000"
           @onselectimage="incrementCounter"
         ></vue-select-image>
-        <v-container fluid="justify-center">
+        <v-container>
           <v-btn-toggle color="deep-purple">
             <v-btn @click="neutralCounter">Neutral</v-btn>
           </v-btn-toggle>
@@ -37,14 +43,13 @@
       </div>
 
       <div v-if="questionNumber == 3">
-        <h1>How are you feeling?</h1>
         <vue-select-image
           :dataImages="question3Images"
           h="600"
           w="1000"
           @onselectimage="incrementCounter"
         ></vue-select-image>
-        <v-container fluid="justify-center">
+        <v-container>
           <v-btn-toggle color="deep-purple">
             <v-btn @click="neutralCounter">Neutral</v-btn>
           </v-btn-toggle>
@@ -84,9 +89,10 @@ export default {
 
   data: function() {
     return {
-      questions: [],
+      questions: [               
+      ],
       questionNumber: 1,
-      index: 1,
+      questionIndex: 0,
       counter1: 0,
       counter2: 0,
       counter3: 0,
@@ -173,13 +179,16 @@ export default {
       this.questions === questions;
     });
   },
+  
 
   methods: {
     backButton: function() {
       if (this.questionNumber > 1) this.questionNumber--;
+      this.questionIndex--;
     },
     nextButton: function() {
-      if (this.questionNumber < 5) this.questionNumber++;
+      this.questionNumber++;
+      this.questionIndex++;
     },
     incrementCounter: function(data) {
       this.imageSelected = data;
@@ -190,6 +199,11 @@ export default {
     neutralCounter: function() {
       this.counter3++;
     }
+  
+
+   
+
+    
   }
 };
 </script>
