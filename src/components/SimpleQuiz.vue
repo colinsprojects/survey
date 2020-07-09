@@ -11,7 +11,7 @@
         </v-row>
          </v-container>
 
-        <v-container fluid xs="6">
+        <v-container xs="6">
           <v-row align="center" justify="center">
             <v-col flex>
               <v-card max-width="800">
@@ -28,7 +28,7 @@
             </v-col>
 
             <v-col flex>
-              <v-card max-width="800">
+              <v-card max-height="800" max-width="800">
                 <v-img>
                   <img :src="question.image2URL" />
                 </v-img>
