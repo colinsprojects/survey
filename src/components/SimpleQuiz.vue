@@ -5,11 +5,11 @@
   <div class="SimpleQuiz">
     <div v-for="(question, index) in questions" :key="question.questions">
       <div v-show="index === questionIndex">
-         <v-container fluid xs="6">
-        <v-row  align="center" justify="center">
-        <h1 class="display-1">Question {{questionIndex+1}}: {{question.question}}</h1>
-        </v-row>
-         </v-container>
+        <v-container fluid xs="6">
+          <v-row align="center" justify="center">
+            <h1 class="display-1">Question {{questionIndex+1}}: {{question.question}}</h1>
+          </v-row>
+        </v-container>
 
         <v-container xs="6">
           <v-row align="center" justify="center">
@@ -24,7 +24,6 @@
                   </v-radio-group>
                 </v-card-actions>
               </v-card>
-
             </v-col>
 
             <v-col flex>
@@ -43,18 +42,12 @@
         </v-container>
 
         <v-spacer></v-spacer>
-       
-         <v-row align="center" justify="center">
 
-         <v-radio-group row v-model="radioButton">
-          <v-radio label="I can't decide" color="indigo" value="3"></v-radio>
-        </v-radio-group>
-
-        
-
-         </v-row>
-
- 
+        <v-row align="center" justify="center">
+          <v-radio-group row v-model="radioButton">
+            <v-radio label="I can't decide" color="indigo" value="3"></v-radio>
+          </v-radio-group>
+        </v-row>
 
         <v-row align="center" justify="center">
           <v-btn v-if="questionIndex > 0" v-on:click="backButton">Back</v-btn>
@@ -84,6 +77,7 @@
 
 <script>
 import { db } from "@/firebase";
+import firebase from "firebase/app";
 import ThankYou from "./ThankYou";
 
 export default {
@@ -98,7 +92,6 @@ export default {
       answers: []
     };
   },
-
   firestore: {
     questions: db.collection("SimpleQuiz")
   },
@@ -107,7 +100,6 @@ export default {
       this.questions === questions;
     });
   },
-
   methods: {
     // Go to next question
     nextButton: function() {
@@ -121,6 +113,23 @@ export default {
     submit: function() {
       this.answers[this.questionIndex] = this.radioButton;
       this.questionIndex++;
+
+      const db = firebase.firestore();
+      const increment = firebase.firestore.FieldValue.increment(1);
+
+      var arrayLength = this.answers.length;
+
+
+      //loop through all the answers from the quiz
+      for (var i = 0; i < arrayLength; i++) {
+        var count = i+1;
+        const answersRef = db.collection("SimpleQuiz").doc("" + count);
+        if (this.answers[i] == 1) answersRef.update({ image1Votes: increment });
+        else if (this.answers[i] == 2)
+          answersRef.update({ image2Votes: increment });
+        else if (this.answers[i] == 3)
+          answersRef.update({ neutralVotes: increment });
+      }
     }
   }
 };
