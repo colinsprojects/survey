@@ -20,6 +20,6 @@ git commit -m 'deploy'
 # git push -f git@github.com:https://colinsprojects.github.io//colinsprojects.github.io.git master
 
 # if you are deploying to https://colinsprojects.github.io/https://colinsprojects.github.io/
-# git push -f git@github.com:colinsprojects/https://colinsprojects.github.io/.git master:gh-pages
+ git push -f git@github.com:colinsprojects/survey.git master:gh-pages
 
 cd -
