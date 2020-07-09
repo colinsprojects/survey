@@ -1,7 +1,7 @@
 //Material Deisign used from https://vuetifyjs.com/en/getting-started/pre-made-layouts/
 <template>
   <v-app id="inspire">
-    <v-app-bar app color="deep-purple lighten-2" dark>
+    <v-app-bar xs6 sm12 md18 app color="deep-purple lighten-2" dark>
       <v-spacer></v-spacer>
 
       <span class="mr-2">Survey</span>
@@ -11,28 +11,27 @@
         <v-icon>mdi-web</v-icon>
       </v-btn>
     </v-app-bar>
+<v-container fill-height fluid>
+    <v-row align="center" justify="center">
+      <v-content v-if="show == 0">
+        <v-btn @click="show = 1" v-show="!show">Start Simple Quiz</v-btn>
 
-    <v-content v-if="!show">
-      <v-btn @click="show =!show">Start Quiz</v-btn>
-
-      <p>This quiz is designed to ask you about how you feel in regarding locations. You will be asked to choose between two different images for each question.</p>
-      <p>Please select your age bracket: </p>
-
-      <v-radio-group :mandatory="false">
-      <v-radio label="40-50" value="40-50"></v-radio>
-      <v-radio label="50-60" value="50-60"></v-radio>
-       <v-radio label="60-70" value="60-70"></v-radio>
-    </v-radio-group>
-    <SimpleQuiz> </SimpleQuiz>
-    </v-content>
+        <p>This quiz is designed to ask you about how you feel in regarding locations. You will be asked to choose between two different images for each question.</p>
 
 
+        <v-btn @click="show = 2" v-show="!show">Start Complex Quiz</v-btn>
+          <p>This quiz is designed to ask you about how you feel in regarding locations. You will be asked to rate an image for each question.</p>
+      </v-content>
 
-    //<v-content v-if="show">
-    <ComplexQuiz> </ComplexQuiz>
-    </v-content>
+      <v-content v-if="show == 1">
+        <SimpleQuiz></SimpleQuiz>
+      </v-content>
 
-  
+      <v-content v-if="show == 2">
+        <ComplexQuiz></ComplexQuiz>
+      </v-content>
+    </v-row>
+</v-container>
   </v-app>
 </template>
 
@@ -41,19 +40,18 @@ import ComplexQuiz from "./components/ComplexQuiz";
 import SimpleQuiz from "./components/SimpleQuiz";
 //import Test from "./components/Test"
 
-
 export default {
   name: "App",
 
   components: {
-   SimpleQuiz,
-   ComplexQuiz,
-   // Test
+    SimpleQuiz,
+    ComplexQuiz
+    // Test
   },
 
   data: function() {
     return {
-      show: false
+      show: 0
     };
   }
 };
